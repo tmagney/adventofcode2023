@@ -6,8 +6,8 @@
         {
             var day = new Day1(false);
 
-            day.GetFirstResult();
-            //day.printResult2();
-        }
+            //day.GetFirstResult();
+            day.GetSecondResult();
+        } 
     }
 }
