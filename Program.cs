@@ -4,11 +4,9 @@
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello Advent of Code.");
+            var day = new Day1(false);
 
-            //var day = new Day1(true);
-
-            //day.printResult1();
+            day.GetFirstResult();
             //day.printResult2();
         }
     }

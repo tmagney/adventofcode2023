@@ -1,9 +1,20 @@
-namespace AdventOfCode2022
+namespace AdventOfCode2023
 {
     public abstract class Day
     {
-        public abstract string PrintFirstResult();
 
-        public abstract string PrintSecondResult();
+        protected string text = String.Empty;
+
+        public Day(bool isTest)
+        {
+            var filename = isTest ? "day1-test.txt" : "day1.txt";
+
+            text = File.ReadAllText(Directory.GetCurrentDirectory() + @"\inputs\" + filename);
+     
+        }
+
+        public abstract string GetFirstResult();
+
+        public abstract string GetSecondResult();
     }
 }
