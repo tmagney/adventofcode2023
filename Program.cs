@@ -4,10 +4,10 @@
     {
         static void Main(string[] args)
         {
-            var day = new Day1(false);
+            var day = new Day2(false);
 
-            //day.GetFirstResult();
-            day.GetSecondResult();
+            Console.WriteLine(day.GetFirstResult());
+            //Console.WriteLine(day.GetSecondResult());
         } 
     }
 }

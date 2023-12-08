@@ -7,7 +7,7 @@ namespace AdventOfCode2023
 
         public Day(bool isTest)
         {
-            var filename = isTest ? "day1-test2.txt" : "day1.txt";
+            var filename = isTest ? "day2-test.txt" : "day2.txt";
 
             text = File.ReadAllText(Directory.GetCurrentDirectory() + @"\inputs\" + filename);
      
