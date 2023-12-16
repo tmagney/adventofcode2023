@@ -1,9 +1,10 @@
+using System.ComponentModel;
 using System.Globalization;
+using System.Numerics;
 using System.Reflection.Metadata;
 
 namespace AdventOfCode2023
 {
-
     public class Day2: Day
     {
         private IList<string> input = new List<string>();
@@ -20,67 +21,68 @@ namespace AdventOfCode2023
             foreach(var line in input)
             {
                 games.Add(new Game(line));
-                sum = games.Where(x => x.possible).Sum(x => Convert.ToInt16(x.number));
-                // var game = new Game(line);
-
-                // if(game.reds <= redLimit && game.greens <= greenLimit && game.blues <= blueLimit)
-                // {
-                //     Console.WriteLine("Possible game: " + game.number);
-                //     sum += game.number;
-                // }
-                // else{
-                //     Console.WriteLine("Impossible game: " + game.number + " red: " + game.reds + 
-                //         " green: " + game.greens + " blue: " + game.blues);
-                // }
+                //sum = games.Where(x => x.possible).Sum(x => Convert.ToInt16(x.number));
             }
             
             return sum.ToString();
         } 
 
         public override string GetSecondResult() {
-            return "";
+            var sum = 0;
+            foreach(var line in input)
+            {
+                games.Add(new Game(line));
+            }
+            
+            return games.Sum(x => x.getPower()).ToString();
+        }
+    }
+
+    internal class Round 
+    {
+        internal int reds = 0;
+        internal int greens = 0;
+
+        internal int blues = 0;
+
+        internal Round(string line)
+        {
+            //3 blue, 4 red
+            foreach(var color in line.Split(", "))
+            {
+                if(color.Contains("red"))
+                {
+                    reds = Convert.ToInt32(color.Split(" ").First());
+                } else if(color.Contains("green"))
+                {
+                    greens = Convert.ToInt32(color.Split(" ").First());
+                } else if(color.Contains("blue"))
+                {
+                    blues = Convert.ToInt32(color.Split(" ").First());
+                }
+            }
         }
     }
 
     internal class Game
     {
-        private const int redLimit = 12;
-        private const int greenLimit = 13;
-        private const int blueLimit = 14;
-
-        internal int number = 0;
-
-        internal bool possible = false;
+        internal IList<Round> rounds = new List<Round>();
 
         internal Game(string line){
-            number = Convert.ToInt32(line.Split(":").First().Split(" ").Last());
-
-            var red = 0;
-            var green = 0;
-            var blue = 0;
-
-            foreach(var colors in line.Split(":").Last().Split(";"))
+            //setIsGamePossible(line);
+            foreach(var round in line.Split(": ").Last().Split("; "))
             {
-                // reds += colors.Contains("red") ? Convert.ToInt32(colors.Split(" red").First().Split(" ").Last()) : 0;
-                // greens += colors.Contains("green") ? Convert.ToInt32(colors.Split(" green").First().Split(" ").Last()) : 0;
-                // blues += colors.Contains("blue") ? Convert.ToInt32(colors.Split(" blue").First().Split(" ").Last()) : 0;
-            
-                red = colors.Contains("red") ? Convert.ToInt32(colors.Split(" red").First().Split(" ").Last()) : 0;
-                green = colors.Contains("green") ? Convert.ToInt32(colors.Split(" green").First().Split(" ").Last()) : 0;
-                blue = colors.Contains("blue") ? Convert.ToInt32(colors.Split(" blue").First().Split(" ").Last()) : 0;
-
-                if(red <= redLimit && green <= greenLimit && blue <= blueLimit)
-                {
-                    Console.WriteLine("Possible game: " + number);
-                    possible = true;
-                }
-                else{
-                    Console.WriteLine("Impossible game: " + number + " red: " + red + 
-                        " green: " + green + " blue: " + blue);
-                    possible = false;
-                    break;
-                }
+                rounds.Add(new Round(round));
             }
+        }
+
+        internal int getPower()
+        {
+            int red = rounds.OrderBy(x => x.reds).Last().reds;
+            int blue = rounds.OrderBy(x => x.blues).Last().blues;
+            int green = rounds.OrderBy(x => x.greens).Last().greens;
+
+            return red * blue * green;
         }
     }
 }

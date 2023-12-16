@@ -6,8 +6,8 @@
         {
             var day = new Day2(false);
 
-            Console.WriteLine(day.GetFirstResult());
-            //Console.WriteLine(day.GetSecondResult());
+            //Console.WriteLine(day.GetFirstResult());
+            Console.WriteLine(day.GetSecondResult());
         } 
     }
 }
